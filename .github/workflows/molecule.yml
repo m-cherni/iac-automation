@@ -36,13 +36,23 @@ jobs:
 
       # Run molecule lint
       - name: Linting
-        run: molecule lint
+        run: |
+          pwd
+          ls
+          source molecule_env/bin/activate
+          molecule lint
 
-      - name: Playbook
-        run: molecule converge
+      - name: Playbook execution
+        run: |
+          source molecule_env/bin/activate
+          molecule converge
 
       - name: Verification
-        run: molecule verify
+        run: |
+          source molecule_env/bin/activate 
+          molecule verify
 
       - name: Checking idempotency
-        run: molecule idempotence
+        run: |
+          source molecule_env/bin/activate
+          molecule idempotence
