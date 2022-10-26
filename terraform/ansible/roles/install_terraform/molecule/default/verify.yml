@@ -1,0 +1,41 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: true
+  vars:
+    manual_installation: ${MANUAL_INSTALLATION}
+    terraform_install_directory: "/usr/local/bin"
+  tasks:
+    - name: "Verification in case package manager was used for the installation"
+      when: not manual_installation
+      block:
+        - name: Gather the package facts
+          ansible.builtin.package_facts:
+            manager: auto
+
+        - name: Check whether Terraform is installed using package manager
+          ansible.builtin.assert:
+            that: true
+          when: "'terraform' in ansible_facts.packages"
+      rescue:
+        - name: "Print while errors"
+          ansible.builtin.debug:
+            msg: "Error during verification"
+
+    - name: "Verification in case of manual installation"
+      when: manual_installation
+      block:
+        - name: Gather the package facts
+          ansible.builtin.stat:
+            path: "{{ terraform_install_directory }}/terraform"
+          register: terraform
+
+        - name: Check whether Terraform is installed manually
+          ansible.builtin.assert:
+            that: "terraform.stat.exists"
+      rescue:
+        - name: "Print while errors"
+          ansible.builtin.debug:
+            msg: "Error during verification"

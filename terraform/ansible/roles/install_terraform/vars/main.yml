@@ -1,0 +1,4 @@
+---
+# vars file for roles/install-terraform
+manual_installation: true
+terraform_install_directory: "/usr/local/bin"
