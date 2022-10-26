@@ -5,8 +5,8 @@ driver:
   name: docker
 lint: |
   set -e
-  /home/mcherni/Documents/workspace/molecule-venv/bin/yamllint .
-  /home/mcherni/Documents/workspace/molecule-venv/bin/ansible-lint
+  $VIRTUAL_ENV/bin/yamllint .
+  $VIRTUAL_ENV/bin/ansible-lint
 platforms:
   - name: ubuntu_machine
     image: ubuntu:20.04
