@@ -1,0 +1,8 @@
+terraform:
+  hosts:
+    terraform_controller:
+      ansible_host: '{{ lookup("env", "env_ansible_host") }}'
+      ansible_connection: "ssh"
+      ansible_ssh_private_key_file: "~/.ssh/ansibleuser"
+      ansible_user: "ansibleuser"
+      ansible_ssh_port: 22

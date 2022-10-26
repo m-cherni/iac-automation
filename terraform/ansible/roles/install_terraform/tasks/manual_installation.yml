@@ -1,0 +1,20 @@
+---
+- name: Install dependencies packages
+  ansible.builtin.apt:
+    name: unzip
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+
+- name: Install dependencies packages
+  ansible.builtin.yum:
+    name: unzip
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
+
+- name: Download an unarchive terraform binary
+  ansible.builtin.unarchive:
+    src: "{{ terraform_download_url }}"
+    dest: "{{ terraform_install_directory }}"
+    remote_src: yes
