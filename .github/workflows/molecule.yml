@@ -26,7 +26,7 @@ jobs:
       # Install dependencies
       - name: Create virtual env
         run: |
-          python3 -m virtual_env molecule_env
+          python3 -m venv molecule_env
           source molecule_env/bin/activate
           pip3 install ansible molecule molecule-docker yamllint ansible-lint
 
@@ -41,7 +41,7 @@ jobs:
       - name: Playbook
         run: molecule converge
 
-      - name: verification"
+      - name: Verification
         run: molecule verify
 
       - name: Checking idempotency
