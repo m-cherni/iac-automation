@@ -37,24 +37,24 @@ jobs:
       # Run molecule lint
       - name: Linting
         run: |
-          cd terraform/ansible/roles/install_terraform/
           source molecule_env/bin/activate
+          cd terraform/ansible/roles/install_terraform/
           molecule lint
 
       - name: Playbook execution
         run: |
-          cd terraform/ansible/roles/install_terraform/
           source molecule_env/bin/activate
+          cd terraform/ansible/roles/install_terraform/
           molecule converge
 
       - name: Verification
         run: |
+          source molecule_env/bin/activate
           cd terraform/ansible/roles/install_terraform/
-          source molecule_env/bin/activate 
           molecule verify
 
       - name: Checking idempotency
         run: |
-          cd terraform/ansible/roles/install_terraform/
           source molecule_env/bin/activate
+          cd terraform/ansible/roles/install_terraform/
           molecule idempotence
