@@ -50,6 +50,7 @@ jobs:
       - name: Verification
         run: |
           source molecule_env/bin/activate
+          MANUAL_INSTALLATION=true
           cd terraform/ansible/roles/install_terraform/
           molecule verify
 
