@@ -1,4 +1,4 @@
 ---
 # vars file for roles/install-terraform
-manual_installation: false
+manual_installation: "{{ lookup('ansible.builtin.env', 'MANUAL_INSTALLATION', default='false') }}"
 terraform_install_directory: "/usr/local/bin"
