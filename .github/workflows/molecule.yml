@@ -44,12 +44,15 @@ jobs:
           cd terraform/ansible/roles/install_terraform/
           molecule lint
 
+      # Run molecule converge
       - name: Playbook execution
         run: |
           source molecule_env/bin/activate
+          export MANUAL_INSTALLATION=${{ matrix.manual_installation }}
           cd terraform/ansible/roles/install_terraform/
           molecule converge
 
+      # Run molecule verification
       - name: Verification
         run: |
           source molecule_env/bin/activate
@@ -57,8 +60,10 @@ jobs:
           cd terraform/ansible/roles/install_terraform/
           molecule verify
 
+      # Run molecule idempotence
       - name: Checking idempotency
         run: |
           source molecule_env/bin/activate
+          export MANUAL_INSTALLATION=${{ matrix.manual_installation }}
           cd terraform/ansible/roles/install_terraform/
           molecule idempotence
