@@ -5,11 +5,15 @@
   hosts: all
   gather_facts: true
   vars:
-    manual_installation: ${MANUAL_INSTALLATION}
+    manual_installation: "{{ lookup('ansible.builtin.env', 'MANUAL_INSTALLATION') }}"
     terraform_install_directory: "/usr/local/bin"
   tasks:
+    - name: "Debug: print MANUAL_INSTALLATION variable"
+      ansible.builtin.debug:
+        var: manual_installation
+
     - name: "Verification in case package manager was used for the installation"
-      when: not manual_installation
+      when: manual_installation == "false"
       block:
         - name: Gather the package facts
           ansible.builtin.package_facts:
@@ -25,7 +29,7 @@
             msg: "Error during verification"
 
     - name: "Verification in case of manual installation"
-      when: manual_installation
+      when: manual_installation == "true"
       block:
         - name: Gather the package facts
           ansible.builtin.stat:

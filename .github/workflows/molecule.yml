@@ -6,6 +6,9 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        manual_installation: [true, false]
     runs-on: ubuntu-latest
 
     steps:
@@ -50,7 +53,7 @@ jobs:
       - name: Verification
         run: |
           source molecule_env/bin/activate
-          export MANUAL_INSTALLATION=true
+          export MANUAL_INSTALLATION = ${{ matrix.manual_installation }}
           cd terraform/ansible/roles/install_terraform/
           molecule verify
 
