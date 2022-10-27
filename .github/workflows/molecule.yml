@@ -53,7 +53,7 @@ jobs:
       - name: Verification
         run: |
           source molecule_env/bin/activate
-          export MANUAL_INSTALLATION = ${{ matrix.manual_installation }}
+          export MANUAL_INSTALLATION=${{ matrix.manual_installation }}
           cd terraform/ansible/roles/install_terraform/
           molecule verify
 
