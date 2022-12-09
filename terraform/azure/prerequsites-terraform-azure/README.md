@@ -58,14 +58,14 @@ Install the extension HashiCorp Terraform. Go to the vscode marketplace and sear
 ### Azure terraform extension
 
 If you want to use Terraform with Azure cloud Shell, you can install the extension Azure Terraform.
-Note that this extension needs the LTS version of Nodejs to be installed on your machine.
+Note that this extension needs the latest LTS version of Nodejs to be installed on your machine.
 
 The Azure Terraform Extension connects to the Azure Cloud Shell and can run Terraform commands from the command palette to the Azure Cloud Shell.
 
 ## Use terraform within Azure Cloud Shell
 
 First of all, configure your cloud shell, create your storage account and open a cloud shell (bash or PowerShell).
-Azure Cloud Shell has terrafor backed in. It may contain an older version of terraform that need to be upgraded.
+Azure Cloud Shell has terraform backed in. It may have an older version of terraform that needs to be upgraded.
 
 ## Authentication
 
@@ -75,7 +75,7 @@ Terraform supports different methods to authenticate to Azure:
 - Authenticate to Azure through Managed Identity
 - Authenticate to Azure using a Service Principal (using Client certificate or Client secret)
 
-To use terraform with Azure, you have to authenticate to Azure either by login to azure using your account or by using a service principal after it was created.
+To use terraform with Azure, you have to authenticate to Azure either by login using your Azure account or by using a service principal after it was created.
 
 Managed identity allows to authenticate without the need to store and manage any credentials but it uses a service principal behind the scene.
 Note that not all resources supports access using managed identity.
@@ -139,7 +139,7 @@ provider "azurerm" {
 }
 ```
 
-To avoid secret leakage, use variables for these parameters by:
+To avoid secrets leaking, use variables for these parameters by:
 
 - Exorting environment variables using the prefix TF_VAR
 - Adding them to a local .tfvars file that you configure to be ignored by git (add the .tfvars file to the .gitigonore file)

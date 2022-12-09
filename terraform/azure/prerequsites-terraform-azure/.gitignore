@@ -1,1 +1,5 @@
+# Local hiden terraform folders and files
 .terraform*
+
+# Local variable file
+*.tfvars
