@@ -1,38 +1,60 @@
-Role Name
-=========
+# Role Name
 
-A brief description of the role goes here.
+This role "install_terraform" installs terraform on linux machines
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- ansibe
+- molecule
+- molecule-docker
+- yamllint
+- ansible-lint
+- docker
+- python
 
-Role Variables
---------------
+For a complete list, please refer to the file requirements.txt
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## Role Variables
 
-Dependencies
-------------
+- manual_installation: A boolean variable that indicates if the installation will be manual by downloading terraform or by using package manager. Default to false.
+- terraform_install_directory: A string variable that indicates the location where to install terraform; Defaults to /usr/local/bin.
+- system_version: A string variable that indicates the system type. Default to "linux_amd64".
+- terraform_version: A string variable that indicates the tarreform version. Default to 1.1.3
+- terraform_download_url: A string variable that define the url from where we can download terraform in case of manual installation.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## Dependencies
 
-Example Playbook
-----------------
+No dependencies for this role.
+
+## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```
+- hosts: terraform
+  become: true
+  roles:
+    - install-terraform
+```
 
-License
--------
+## Test Playbook
 
-BSD
+Run the command below to execute the tests.
 
-Author Information
-------------------
+```
+# Linting
+molecule lint
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+# Testing playbook
+molecule converge
+
+# Verification
+molecule verify
+
+# Idempotency
+molecule idempotency
+
+# To destroy resources
+molecule destroy
+
+```
