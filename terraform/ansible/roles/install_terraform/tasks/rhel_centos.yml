@@ -1,0 +1,28 @@
+---
+# tasks file for roles/install-terraform
+- name: Get Hashicorp key
+  block:
+    - name: Install yum-utils
+      ansible.builtin.yum:
+        name: yum-utils
+        update_cache: yes
+
+    - name: Add repo
+      ansible.builtin.yum_repository:
+        name: hashicorp
+        baseurl: https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable
+        description: "Hashicorp Stable - $basearch"
+        enabled: true
+        gpgcheck: yes
+        gpgkey: "https://rpm.releases.hashicorp.com/gpg"
+
+  rescue:
+    - name: "Print when errors"
+      ansible.builtin.debug:
+        msg: "Error while ading Hashicorp repo"
+
+- name: Install terraform
+  ansible.builtin.yum:
+    name: terraform
+    state: present
+    update_cache: yes

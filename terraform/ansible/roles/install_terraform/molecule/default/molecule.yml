@@ -1,0 +1,26 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  $VIRTUAL_ENV/bin/yamllint .
+  $VIRTUAL_ENV/bin/ansible-lint
+platforms:
+  - name: ubuntu_machine
+    image: ubuntu:20.04
+    priviliged: true
+  - name: debian_machine
+    image: debian:bookworm
+    priviliged: true
+  - name: redhat_machine
+    image: redhat/ubi8:latest
+    priviliged: true
+  - name: centos_machine
+    image: centos:centos7
+    priviliged: true
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

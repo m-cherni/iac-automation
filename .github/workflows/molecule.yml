@@ -1,0 +1,69 @@
+name: Ansibel CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        manual_installation: [true, false]
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository under $GITHUB_WORKSPACE
+      - uses: actions/checkout@v3
+
+      # Install docker on the ubuntu runner
+      - uses: docker-practice/actions-setup-docker@master
+
+      # Check docker installation
+      - name: Run docker version command
+        run: docker version
+
+      # Print the current directory
+      - name: Print the current directory
+        run: pwd
+
+      # Install dependencies
+      - name: Create virtual env
+        run: |
+          python3 -m venv molecule_env
+          source molecule_env/bin/activate
+          pip3 install ansible molecule molecule-docker yamllint ansible-lint
+
+      # Change the working directory
+      - name: Change the working directory
+        run: cd terraform/ansible/roles/install_terraform/
+
+      # Run molecule lint
+      - name: Linting
+        run: |
+          source molecule_env/bin/activate
+          cd terraform/ansible/roles/install_terraform/
+          molecule lint
+
+      # Run molecule converge
+      - name: Playbook execution
+        run: |
+          source molecule_env/bin/activate
+          export MANUAL_INSTALLATION=${{ matrix.manual_installation }}
+          cd terraform/ansible/roles/install_terraform/
+          molecule converge
+
+      # Run molecule verification
+      - name: Verification
+        run: |
+          source molecule_env/bin/activate
+          export MANUAL_INSTALLATION=${{ matrix.manual_installation }}
+          cd terraform/ansible/roles/install_terraform/
+          molecule verify
+
+      # Run molecule idempotence
+      - name: Checking idempotency
+        run: |
+          source molecule_env/bin/activate
+          export MANUAL_INSTALLATION=${{ matrix.manual_installation }}
+          cd terraform/ansible/roles/install_terraform/
+          molecule idempotence
